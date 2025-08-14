@@ -6,10 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    public function dashboard(){
+
+        $totalProfiles = Profile::count();
+        $totalUsers = User::count();
+        return view('dashboard', compact('totalProfiles', 'totalUsers'));
+    }
+    
     public function registerForm()
     {
         return view('auth.register');
@@ -45,6 +53,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+
             $request->session()->regenerate();
             return redirect()->route('dashboard');
         }

@@ -4,7 +4,7 @@
 <div class="register">
   <div class="card">
       <h2>User Login</h2>
-      <form method="POST" action="{{ route('register') }}">
+      <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <div class="form-group">
@@ -34,11 +34,6 @@
           @error('password')
             <div class="error-message">{{ $message }}</div>
           @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="password_confirmation">Confirm Password</label>
-          <input type="password" id="password_confirmation" name="password_confirmation" required />
         </div>
 
         <button type="submit" class="btn-primary">Login</button>

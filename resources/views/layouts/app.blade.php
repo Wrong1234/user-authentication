@@ -6,21 +6,20 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/formdesign.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3">
     <div class="container">
-        <a class="navbar-brand fw-bold text-secondary">
+        <a class="navbar-brand fw-semibold text-secondary">
             Authentication System
         </a>
 
-        <div>
+        <div class="d-flex gap-5">
             @auth
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('profile.create') }}">Create Profile</a>
                 </li>
@@ -28,21 +27,27 @@
                     <a class="nav-link" href="{{ route('profiles.index') }}">All Profiles</a>
                 </li>
             </ul>
-            @endauth
-
-            {{-- Right Menu --}}
-            <ul class="navbar-nav ms-auto align-items-center">
-                @auth
-                    <li class="nav-item me-2">
-                        <span class="nav-link fw-semibold">{{ auth()->user()->name }}</span>
-                    </li>
-                    <li class="nav-item">
+            @auth
+            <div class="nav-item dropdown mt-2">
+                <button class="nav-link dropdown-toggle btn btn-link text-lg" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ auth()->user()->name }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="nav-link fw-semibold">Logout</button>
+                            <button type="submit" class="dropdown-item">Logout</button>
                         </form>
                     </li>
-                @else
+                </ul>
+            </div>
+            @endauth
+        </div>
+
+            @else
+            <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
                         <a class="nav-link fw-semibold" href="{{ route('login') }}">Login</a>
                     </li>
@@ -51,8 +56,6 @@
                     </li>
                 @endauth
             </ul>
-
-        </div>
     </div>
 </nav>
  @yield('content')
